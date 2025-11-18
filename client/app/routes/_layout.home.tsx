@@ -1,4 +1,4 @@
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/_layout.home";
 import { BlockRenderer } from "../components/blocks";
 import { getLandingPage } from "../lib/api";
 import { handleApiError } from "../lib/utils";

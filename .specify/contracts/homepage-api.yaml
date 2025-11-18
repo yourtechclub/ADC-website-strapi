@@ -1,0 +1,491 @@
+openapi: 3.0.0
+info:
+  title: ADC Homepage API
+  description: API contracts for ADC homepage feature (homepage-r1)
+  version: 1.0.0
+  contact:
+    name: ADC Development Team
+    email: dev@amsterdamdatacollective.com
+
+servers:
+  - url: http://localhost:1337/api
+    description: Development server
+  - url: https://api.amsterdamdatacollective.com/api
+    description: Production server
+
+paths:
+  /landing-page:
+    get:
+      summary: Get homepage landing page data
+      description: Fetches the landing page single type with all populated relations
+      tags:
+        - Landing Page
+      parameters:
+        - name: populate
+          in: query
+          schema:
+            type: string
+            enum: [deep, "*"]
+            default: deep
+          description: Population strategy for relations
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LandingPageResponse'
+        '404':
+          description: Landing page not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /industries:
+    get:
+      summary: Get all industries
+      description: Fetches all published industries for the industries section
+      tags:
+        - Industries
+      parameters:
+        - name: populate
+          in: query
+          schema:
+            type: string
+            default: "*"
+        - name: sort
+          in: query
+          schema:
+            type: string
+            default: "name:asc"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IndustriesResponse'
+
+  /industries/{slug}:
+    get:
+      summary: Get industry by slug
+      description: Fetches a single industry by its URL slug
+      tags:
+        - Industries
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: populate
+          in: query
+          schema:
+            type: string
+            default: "*"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IndustryResponse'
+        '404':
+          description: Industry not found
+
+  /case-studies:
+    get:
+      summary: Get case studies
+      description: Fetches case studies with optional filtering
+      tags:
+        - Case Studies
+      parameters:
+        - name: filters[featured][$eq]
+          in: query
+          schema:
+            type: boolean
+          description: Filter by featured status
+        - name: populate
+          in: query
+          schema:
+            type: string
+            default: "*"
+        - name: sort
+          in: query
+          schema:
+            type: string
+            default: "publishedDate:desc"
+        - name: pagination[limit]
+          in: query
+          schema:
+            type: integer
+            default: 3
+          description: Number of case studies to return
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseStudiesResponse'
+
+  /case-studies/{slug}:
+    get:
+      summary: Get case study by slug
+      description: Fetches a single case study by its URL slug
+      tags:
+        - Case Studies
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: populate
+          in: query
+          schema:
+            type: string
+            default: "deep"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseStudyResponse'
+        '404':
+          description: Case study not found
+
+components:
+  schemas:
+    LandingPageResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/LandingPage'
+        meta:
+          type: object
+
+    LandingPage:
+      type: object
+      required:
+        - id
+        - documentId
+        - hero
+      properties:
+        id:
+          type: integer
+        documentId:
+          type: string
+        hero:
+          $ref: '#/components/schemas/Hero'
+        industriesSection:
+          $ref: '#/components/schemas/IndustriesSection'
+        featuredCasesSection:
+          $ref: '#/components/schemas/FeaturedCasesSection'
+        ctaBanner:
+          $ref: '#/components/schemas/CtaBanner'
+        seo:
+          $ref: '#/components/schemas/Seo'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        publishedAt:
+          type: string
+          format: date-time
+
+    Hero:
+      type: object
+      required:
+        - heading
+        - primaryCta
+      properties:
+        id:
+          type: integer
+        heading:
+          type: string
+          maxLength: 80
+        description:
+          type: string
+          maxLength: 200
+        primaryCta:
+          $ref: '#/components/schemas/CtaLink'
+        secondaryCta:
+          $ref: '#/components/schemas/CtaLink'
+        backgroundImage:
+          $ref: '#/components/schemas/Media'
+
+    IndustriesSection:
+      type: object
+      properties:
+        id:
+          type: integer
+        heading:
+          type: string
+        description:
+          type: string
+        industries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Industry'
+
+    FeaturedCasesSection:
+      type: object
+      properties:
+        id:
+          type: integer
+        heading:
+          type: string
+        description:
+          type: string
+
+    CtaBanner:
+      type: object
+      required:
+        - heading
+        - primaryCta
+      properties:
+        id:
+          type: integer
+        heading:
+          type: string
+        description:
+          type: string
+        primaryCta:
+          $ref: '#/components/schemas/CtaLink'
+        secondaryCta:
+          $ref: '#/components/schemas/CtaLink'
+        backgroundType:
+          type: string
+          enum: [gradient, image, pattern]
+
+    CtaLink:
+      type: object
+      required:
+        - label
+        - url
+      properties:
+        label:
+          type: string
+        url:
+          type: string
+        type:
+          type: string
+          enum: [internal, external]
+          default: internal
+
+    Seo:
+      type: object
+      properties:
+        metaTitle:
+          type: string
+          maxLength: 60
+        metaDescription:
+          type: string
+          maxLength: 160
+        metaImage:
+          $ref: '#/components/schemas/Media'
+        keywords:
+          type: string
+        canonicalUrl:
+          type: string
+          format: uri
+
+    IndustriesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Industry'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+
+    IndustryResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Industry'
+        meta:
+          type: object
+
+    Industry:
+      type: object
+      required:
+        - id
+        - name
+        - slug
+        - icon
+        - description
+      properties:
+        id:
+          type: integer
+        documentId:
+          type: string
+        name:
+          type: string
+          minLength: 3
+          maxLength: 50
+        slug:
+          type: string
+          pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+        icon:
+          type: string
+          description: Lucide icon name
+        description:
+          type: string
+          maxLength: 150
+        fullDescription:
+          type: string
+        caseStudies:
+          type: array
+          items:
+            $ref: '#/components/schemas/CaseStudy'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        publishedAt:
+          type: string
+          format: date-time
+
+    CaseStudiesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CaseStudy'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+
+    CaseStudyResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CaseStudy'
+        meta:
+          type: object
+
+    CaseStudy:
+      type: object
+      required:
+        - id
+        - title
+        - slug
+        - summary
+        - featuredImage
+        - publishedDate
+      properties:
+        id:
+          type: integer
+        documentId:
+          type: string
+        title:
+          type: string
+          minLength: 10
+          maxLength: 100
+        slug:
+          type: string
+        summary:
+          type: string
+          minLength: 50
+          maxLength: 200
+        content:
+          type: string
+          minLength: 500
+        featured:
+          type: boolean
+          default: false
+        featuredImage:
+          $ref: '#/components/schemas/Media'
+        industry:
+          $ref: '#/components/schemas/Industry'
+        client:
+          type: string
+        publishedDate:
+          type: string
+          format: date
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Result'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        publishedAt:
+          type: string
+          format: date-time
+
+    Result:
+      type: object
+      properties:
+        id:
+          type: integer
+        metric:
+          type: string
+        description:
+          type: string
+
+    Media:
+      type: object
+      properties:
+        id:
+          type: integer
+        documentId:
+          type: string
+        name:
+          type: string
+        alternativeText:
+          type: string
+        caption:
+          type: string
+        width:
+          type: integer
+        height:
+          type: integer
+        formats:
+          type: object
+        url:
+          type: string
+          format: uri
+        mime:
+          type: string
+        size:
+          type: number
+
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        pageCount:
+          type: integer
+        total:
+          type: integer
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            status:
+              type: integer
+            name:
+              type: string
+            message:
+              type: string
+            details:
+              type: object

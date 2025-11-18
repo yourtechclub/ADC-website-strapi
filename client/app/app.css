@@ -1,74 +1,153 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* ADC Brand Fonts - Ease Display & SemiDisplay */
+@font-face {
+  font-family: 'Ease Display';
+  src: url('/fonts/EaseDisplay-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ease SemiDisplay';
+  src: url('/fonts/EaseSemiDisplay-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ease SemiDisplay';
+  src: url('/fonts/EaseSemiDisplay-Semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(94.79% 0.0407 320.6);
-  --secondary-background: oklch(100% 0 0);
-  --foreground: oklch(0% 0 0);
-  --main-foreground: oklch(0% 0 0);
-  --main: oklch(73.43% 0.2332 321.41);
-  --border: oklch(0% 0 0);
-  --ring: oklch(0% 0 0);
-  --overlay: oklch(0% 0 0 / 0.8);
-  --shadow: 4px 4px 0px 0px var(--border);
-  --chart-1: #E96BFF;
-  --chart-2: #FACC00;
-  --chart-3: #FF7A05;
-  --chart-4: #FF4D50;
-  --chart-5: #7A83FF;
-  --chart-active-dot: #000;
+  /* ADC Brand Colors - From Figma Design Tokens (Dark Theme Default) */
+  --background: 240 10% 4%; /* zinc-950 #09090b */
+  --foreground: 0 0% 100%; /* white #ffffff */
+  --card: 240 10% 4%; /* zinc-950 */
+  --card-foreground: 0 0% 100%; /* white */
+  --popover: 240 10% 4%; /* zinc-950 */
+  --popover-foreground: 0 0% 100%; /* white */
+  --primary: 0 0% 98%; /* zinc-50 #fafafa */
+  --primary-foreground: 240 6% 10%; /* zinc-900 #18181b */
+  --secondary: 240 6% 10%; /* zinc-900 */
+  --secondary-foreground: 240 5% 96%; /* zinc-100 #f4f4f5 */
+  --muted: 240 4% 46%; /* zinc-500 approximation */
+  --muted-foreground: 240 5% 64%; /* zinc-400 approximation */
+  --accent: 240 6% 10%; /* zinc-900 */
+  --accent-foreground: 240 5% 96%; /* zinc-100 */
+  --destructive: 0 84% 60%; /* red-500 */
+  --destructive-foreground: 0 0% 98%; /* zinc-50 */
+  --border: 240 6% 90%; /* zinc-200 #e4e4e7 */
+  --input: 240 6% 90%; /* zinc-200 */
+  --ring: 240 6% 10%; /* zinc-900 */
+  --radius: 0.5rem;
+  
+  /* ADC Custom Spacing */
+  --mobile-padding: 3rem; /* 48px */
+  --desktop-padding: 5rem; /* 80px */
 }
 
 .dark {
-  --background: oklch(26.29% 0.0683 327.3);
-  --secondary-background: oklch(23.93% 0 0);
-  --foreground: oklch(92.49% 0 0);
-  --main-foreground: oklch(0% 0 0);
-  --main: oklch(60.62% 0.291458 319.6391);
-  --border: oklch(0% 0 0);
-  --ring: oklch(100% 0 0);
-  --shadow: 4px 4px 0px 0px var(--border);
-  --chart-1: #C700EB;
-  --chart-2: #E0B700;
-  --chart-3: #EB6D00;
-  --chart-4: #FF6669;
-  --chart-5: #7A83FF;
-  --chart-active-dot: #fff;
+  /* Same as default - ADC uses dark theme by default */
+  --background: 240 10% 4%; /* zinc-950 */
+  --foreground: 0 0% 100%; /* white */
+  --card: 240 10% 4%;
+  --card-foreground: 0 0% 100%;
+  --popover: 240 10% 4%;
+  --popover-foreground: 0 0% 100%;
+  --primary: 0 0% 98%; /* zinc-50 */
+  --primary-foreground: 240 6% 10%; /* zinc-900 */
+  --secondary: 240 6% 10%; /* zinc-900 */
+  --secondary-foreground: 240 5% 96%; /* zinc-100 */
+  --muted: 240 4% 46%; /* zinc-500 */
+  --muted-foreground: 240 5% 64%; /* zinc-400 */
+  --accent: 240 6% 10%; /* zinc-900 */
+  --accent-foreground: 240 5% 96%; /* zinc-100 */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 6% 90%; /* zinc-200 */
+  --input: 240 6% 90%;
+  --ring: 240 6% 10%;
 }
 
 @theme inline {
-  --color-main: var(--main);
-  --color-background: var(--background);
-  --color-secondary-background: var(--secondary-background);
-  --color-foreground: var(--foreground);
-  --color-main-foreground: var(--main-foreground);
-  --color-border: var(--border);
-  --color-overlay: var(--overlay);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-
-  --spacing-boxShadowX: 4px;
-  --spacing-boxShadowY: 4px;
-  --spacing-reverseBoxShadowX: -4px;
-  --spacing-reverseBoxShadowY: -4px;
-  --radius-base: 5px;
-  --shadow-shadow: var(--shadow);
-  --font-weight-base: 500;
-  --font-weight-heading: 700;
+  /* ADC Brand Colors */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  
+  /* ADC Custom Spacing */
+  --spacing-mobile-padding: var(--mobile-padding);
+  --spacing-desktop-padding: var(--desktop-padding);
+  
+  /* ADC Typography - Ease Display & SemiDisplay */
+  --font-family-display: 'Ease Display', sans-serif;
+  --font-family-body: 'Ease SemiDisplay', sans-serif;
+  --font-weight-base: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Border Radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
 }
   
 @layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  
   body {
-    @apply text-foreground font-base;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-family-body);
+    font-weight: var(--font-weight-base);
   }
 
-  h1, h2, h3, h4, h5, h6{
-    @apply font-heading;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family-display);
+    font-weight: var(--font-weight-base);
   }
+}
+
+/* Mobile Navigation Animations */
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-down {
+  animation: slide-down 300ms ease-out;
 }

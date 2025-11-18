@@ -1,7 +1,6 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 
 import type { Route } from "./+types/root";
-import { Navigation } from "./components/custom/Navigation";
 import { ErrorBoundary as CustomErrorBoundary } from "./components/custom/ErrorBoundary";
 import "./app.css";
 
@@ -37,12 +36,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return (
-    <>
-      <Navigation />
-      <Outlet />
-    </>
-  );
+  return <Outlet />;
 }
 
 export { CustomErrorBoundary as ErrorBoundary };
