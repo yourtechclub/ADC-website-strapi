@@ -47,13 +47,16 @@ export interface BlocksFeaturedArticles extends Struct.ComponentSchema {
 export interface BlocksHero extends Struct.ComponentSchema {
   collectionName: 'components_blocks_heroes';
   info: {
+    description: 'Hero section with heading, optional subtitle, menu items shown below title on desktop, and CTA buttons';
     displayName: 'Hero';
   };
   attributes: {
-    heading: Schema.Attribute.String;
-    image: Schema.Attribute.Media<'images'>;
-    links: Schema.Attribute.Component<'shared.link', true>;
-    text: Schema.Attribute.RichText;
+    backgroundImage: Schema.Attribute.Media<'images'>;
+    ctaButtons: Schema.Attribute.Component<'shared.link', true>;
+    heading: Schema.Attribute.String & Schema.Attribute.Required;
+    showMenuItemsInHero: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<true>;
+    subtitle: Schema.Attribute.Text;
   };
 }
 

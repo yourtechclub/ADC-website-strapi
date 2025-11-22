@@ -1,22 +1,29 @@
 {
   "collectionName": "components_blocks_heroes",
   "info": {
-    "displayName": "Hero"
+    "displayName": "Hero",
+    "description": "Hero section with heading, optional subtitle, menu items shown below title on desktop, and CTA buttons"
   },
   "options": {},
   "attributes": {
     "heading": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
-    "text": {
-      "type": "richtext"
+    "subtitle": {
+      "type": "text"
     },
-    "links": {
+    "showMenuItemsInHero": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show navigation menu items below heading (desktop only)"
+    },
+    "ctaButtons": {
       "type": "component",
       "repeatable": true,
       "component": "shared.link"
     },
-    "image": {
+    "backgroundImage": {
       "allowedTypes": [
         "images"
       ],

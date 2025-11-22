@@ -3,6 +3,7 @@ import type { Route } from './+types/_layout';
 import { Navigation } from '~/components/layout/Navigation';
 import { PreviewBanner } from '~/components/PreviewBanner';
 import type { MenuItem } from '~/types/navigation';
+import { useState } from 'react';
 
 const STRAPI_URL = process.env.STRAPI_URL || 'http://localhost:1337';
 
@@ -73,13 +74,14 @@ export async function loader() {
  */
 export default function Layout({ loaderData }: Route.ComponentProps) {
   const { menuItems, logo } = loaderData;
+  const [hideMenuItems, setHideMenuItems] = useState(false);
   
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
       <PreviewBanner />
-      <Navigation menuItems={menuItems} logo={logo} variant="default" />
+      <Navigation menuItems={menuItems} logo={logo} variant="default" hideMenuItems={hideMenuItems} />
       <main>
-        <Outlet />
+        <Outlet context={{ menuItems, setHideMenuItems }} />
       </main>
     </div>
   );

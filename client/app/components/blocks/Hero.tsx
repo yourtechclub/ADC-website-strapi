@@ -1,60 +1,86 @@
 import type { TImage, TLink } from "../../types";
+import type { MenuItem } from "../../types/navigation";
 import { StrapiImage } from "../custom/StrapiImage";
 import { Button } from "../ui/button";
 import { Link } from "react-router";
+import AnimatedSVG from "~/components/custom/AnimatedSVG";
 
 export interface IHero {
   __component: "blocks.hero";
   id: number;
   heading: string;
-  text: string;
-  links: TLink[];
-  image: TImage;
+  subtitle?: string;
+  showMenuItemsInHero?: boolean;
+  ctaButtons: TLink[];
+  backgroundImage?: TImage;
 }
 
-const styles = {
-  section:
-    "bg-white text-primary-foreground py-20",
-  container: "container mx-auto px-4",
-  grid: "grid grid-cols-1 lg:grid-cols-2 gap-12 items-center",
-  heading: "text-4xl lg:text-6xl font-bold mb-6",
-  text: "text-xl mb-8 text-primary-foreground/80",
-  linksFlex: "flex flex-col sm:flex-row gap-4",
-  image: "rounded-lg shadow-2xl",
-};
+interface HeroProps extends IHero {
+  menuItems?: MenuItem[];
+}
 
-export function Hero(props: IHero) {
-  const { heading, text, links, image } = props;
+export function Hero(props: HeroProps) {
+  const { heading, subtitle, showMenuItemsInHero = true, ctaButtons, backgroundImage, menuItems = [] } = props;
 
   return (
-    <section className={styles.section}>
-      <div className={styles.container}>
-        <div className={styles.grid}>
-          <div>
-            <h1 className={styles.heading}>{heading}</h1>
-            <p className={styles.text}>{text}</p>
-            <div className={styles.linksFlex}>
-              {links.map((link) => (
-                <Button key={link.id} size="lg" asChild>
-                  <Link
-                    to={link.href}
-                    target={link.isExternal ? "_blank" : undefined}
-                    rel={link.isExternal ? "noopener noreferrer" : undefined}
+    <section className="relative bg-white flex flex-col items-end justify-center px-8 py-36 w-full min-h-screen overflow-hidden">
+      {/* SVG Background - positioned exactly as in Figma */}
+      <div className="absolute h-[2054px] left-[-282px] top-[-634.38px] w-[1242.852px]">
+        <AnimatedSVG />
+      </div>
+
+      {/* Content container - 908px wide as in Figma */}
+      <div className="relative flex flex-col gap-10 items-start w-full max-w-[908px]">
+        {/* Heading - 96px, tracking -2.88px */}
+        <h1 className="font-display text-[96px] leading-none tracking-[-2.88px] text-black whitespace-pre-wrap w-full">
+          {heading}
+        </h1>
+
+        {/* Subtitle (optional) */}
+        {subtitle && (
+          <p className="text-xl text-black/70 max-w-2xl">{subtitle}</p>
+        )}
+
+        {/* Menu items - Desktop only, 749px wide container, 32px gap */}
+        {showMenuItemsInHero && menuItems.length > 0 && (
+          <nav className="hidden md:flex flex-wrap gap-8 items-start w-full max-w-[749px]" aria-label="Hero navigation">
+            {menuItems.map((item) => (
+              <div key={item.id} className="flex items-center justify-center py-2 transition-opacity hover:opacity-70">
+                {item.isExternal ? (
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-display text-[20px] leading-6 text-black"
                   >
-                    {link.label}
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link to={item.url} className="font-display text-[20px] leading-6 text-black">
+                    {item.label}
                   </Link>
-                </Button>
-              ))}
-            </div>
+                )}
+              </div>
+            ))}
+          </nav>
+        )}
+
+        {/* CTA Buttons - Mobile only */}
+        {ctaButtons.length > 0 && (
+          <div className="flex md:hidden flex-col sm:flex-row gap-4">
+            {ctaButtons.map((button) => (
+              <Button key={button.id} size="lg" className="bg-black text-white hover:bg-black/90 px-10 py-4 rounded-full font-display text-lg" asChild>
+                <Link
+                  to={button.href}
+                  target={button.isExternal ? "_blank" : undefined}
+                  rel={button.isExternal ? "noopener noreferrer" : undefined}
+                >
+                  {button.label}
+                </Link>
+              </Button>
+            ))}
           </div>
-          <div>
-            <StrapiImage
-              src={image.url}
-              alt={image.alternativeText || heading}
-              className={styles.image}
-            />
-          </div>
-        </div>
+        )}
       </div>
     </section>
   );

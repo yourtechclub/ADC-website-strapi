@@ -5,6 +5,7 @@ interface DesktopNavProps {
   menuItems: MenuItem[];
   logo: Logo;
   variant: NavigationVariant;
+  hideMenuItems?: boolean;
 }
 
 /**
@@ -15,8 +16,9 @@ interface DesktopNavProps {
  * - 3 color variants: default (white bg), dark (black bg), transparent
  * - Typography: 20px Ease Display, 28px line height
  * - Spacing: 42px gap between items, 32px horizontal padding, 20px vertical padding
+ * - Supports hiding menu items (for hero section where menu appears below title)
  */
-export function DesktopNav({ menuItems, logo, variant }: DesktopNavProps) {
+export function DesktopNav({ menuItems, logo, variant, hideMenuItems = false }: DesktopNavProps) {
   // Variant-based background colors
   const bgClass: Record<NavigationVariant, string> = {
     default: 'bg-white',
@@ -53,48 +55,50 @@ export function DesktopNav({ menuItems, logo, variant }: DesktopNavProps) {
           )}
         </Link>
         
-        {/* Menu Items - Right aligned */}
-        <ul className="flex items-center gap-[2.625rem]">
-          {menuItems.map((item) => (
-            <li key={item.id}>
-              {item.isExternal ? (
-                <a
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`
-                    font-display text-xl leading-7 font-normal
-                    ${textClass[variant]}
-                    hover:opacity-70 
-                    transition-opacity duration-200
-                    focus-visible:outline-none 
-                    focus-visible:ring-2 
-                    focus-visible:ring-offset-2
-                    focus-visible:ring-zinc-400
-                  `}
-                >
-                  {item.label}
-                </a>
-              ) : (
-                <Link
-                  to={item.url}
-                  className={`
-                    font-display text-xl leading-7 font-normal
-                    ${textClass[variant]}
-                    hover:opacity-70 
-                    transition-opacity duration-200
-                    focus-visible:outline-none 
-                    focus-visible:ring-2 
-                    focus-visible:ring-offset-2
-                    focus-visible:ring-zinc-400
-                  `}
-                >
-                  {item.label}
-                </Link>
-              )}
-            </li>
-          ))}
-        </ul>
+        {/* Menu Items - Right aligned (hidden when hideMenuItems is true) */}
+        {!hideMenuItems && (
+          <ul className="flex items-center gap-[2.625rem]">
+            {menuItems.map((item) => (
+              <li key={item.id}>
+                {item.isExternal ? (
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`
+                      font-display text-xl leading-7 font-normal
+                      ${textClass[variant]}
+                      hover:opacity-70 
+                      transition-opacity duration-200
+                      focus-visible:outline-none 
+                      focus-visible:ring-2 
+                      focus-visible:ring-offset-2
+                      focus-visible:ring-zinc-400
+                    `}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link
+                    to={item.url}
+                    className={`
+                      font-display text-xl leading-7 font-normal
+                      ${textClass[variant]}
+                      hover:opacity-70 
+                      transition-opacity duration-200
+                      focus-visible:outline-none 
+                      focus-visible:ring-2 
+                      focus-visible:ring-offset-2
+                      focus-visible:ring-zinc-400
+                    `}
+                  >
+                    {item.label}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </nav>
   );

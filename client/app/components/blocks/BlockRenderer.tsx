@@ -5,6 +5,7 @@ import { ContentWithImage, type IContentWithImage } from "./ContentWithImage";
 import { MarkdownText, type IMarkdownText } from "./MarkdownText";
 import { PersonCard, type IPersonCard } from "./PersonCard";
 import { FeaturedArticles, type IFeaturedArticles } from "./FeaturedArticles";
+import type { MenuItem } from "~/types/navigation";
 
 export type Block =
   | IHero
@@ -17,13 +18,14 @@ export type Block =
 
 interface BlockRendererProps {
   blocks: Block[];
+  menuItems?: MenuItem[];
 }
 
-export function BlockRenderer({ blocks }: BlockRendererProps) {
+export function BlockRenderer({ blocks, menuItems }: BlockRendererProps) {
   const renderBlock = (block: Block) => {
     switch (block.__component) {
       case "blocks.hero":
-        return <Hero key={block.id} {...block} />;
+        return <Hero key={block.id} {...block} menuItems={menuItems} />;
       case "blocks.section-heading":
         return <SectionHeading key={block.id} {...block} />;
       case "blocks.card-grid":

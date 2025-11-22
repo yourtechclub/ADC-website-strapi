@@ -10,8 +10,8 @@ const populate = {
     on: {
       "blocks.hero": {
         populate: {
-          links: true,
-          image: {
+          ctaButtons: true,
+          backgroundImage: {
             fields: ["alternativeText", "url"],
           },
         },

@@ -1,17 +1,56 @@
-import type { Route } from './+types/_layout._index';
+import type { Route } from "./+types/_layout._index";
+import { BlockRenderer } from "../components/blocks";
+import { getLandingPage } from "../lib/api";
+import { handleApiError } from "../lib/utils";
+import { useOutletContext } from "react-router";
+import type { MenuItem } from "../types/navigation";
+import { useEffect } from "react";
 
-export default function HomePage() {
+export async function loader({}: Route.LoaderArgs) {
+  const response = await getLandingPage();
+  handleApiError(response, "landing page");
+  if (!response?.data)
+    throw new Response("Landing page not found", { status: 404 });
+  return response.data;
+}
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "ADC - Leading AI Transformation" },
+    { name: "description", content: "ADC helps organizations transform through AI." },
+  ];
+}
+
+interface LayoutContext {
+  menuItems: MenuItem[];
+  setHideMenuItems?: (hide: boolean) => void;
+}
+
+export default function HomePage({ loaderData }: Route.ComponentProps) {
+  const response = loaderData;
+  const { menuItems, setHideMenuItems } = useOutletContext<LayoutContext>();
+
+  // Check if there's a hero block with showMenuItemsInHero enabled
+  useEffect(() => {
+    const hasHeroWithMenuItems = response.blocks.some(
+      (block: any) => block.__component === 'blocks.hero' && block.showMenuItemsInHero
+    );
+    
+    if (setHideMenuItems) {
+      setHideMenuItems(hasHeroWithMenuItems);
+    }
+    
+    // Cleanup: reset when component unmounts
+    return () => {
+      if (setHideMenuItems) {
+        setHideMenuItems(false);
+      }
+    };
+  }, [response.blocks, setHideMenuItems]);
+
   return (
-    <div className="container mx-auto px-6 py-12">
-      <h1 className="font-display text-4xl font-bold mb-6">
-        Welcome to ADC
-      </h1>
-      <p className="font-body text-lg text-zinc-300">
-        The navigation bar should appear above this content.
-      </p>
-      <p className="font-body text-sm text-zinc-500 mt-4">
-        This is the homepage nested under the _layout route, so it inherits the Navigation component.
-      </p>
-    </div>
+    <main>
+      <BlockRenderer blocks={response.blocks} menuItems={menuItems} />
+    </main>
   );
 }
