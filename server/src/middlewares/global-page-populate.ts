@@ -56,6 +56,20 @@ const populate = {
           }
         }
       },
+      "blocks.industries": true,
+      "blocks.client-logos": {
+        populate: {
+          logos: {
+            fields: ["alternativeText", "url"],
+          },
+        },
+      },
+      "blocks.stats": {
+        populate: {
+          stats: true,
+        },
+      },
+      "blocks.featured-cases": true,
     },
   },
 };

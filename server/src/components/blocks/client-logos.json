@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_blocks_client_logos",
+  "info": {
+    "displayName": "Client Logos",
+    "description": "Scrolling carousel of client logos"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string"
+    },
+    "logos": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

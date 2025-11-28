@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_blocks_industries",
+  "info": {
+    "displayName": "Industries",
+    "description": "Industries section with grid of industry cards"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Industries"
+    },
+    "text": {
+      "type": "text"
+    },
+    "buttonText": {
+      "type": "string",
+      "default": "See all industries"
+    }
+  }
+}

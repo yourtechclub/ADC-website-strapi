@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_blocks_featured_cases",
+  "info": {
+    "displayName": "Featured Cases",
+    "description": "Horizontal scrolling carousel of featured case studies"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Featured cases"
+    },
+    "text": {
+      "type": "text"
+    },
+    "buttonText": {
+      "type": "string",
+      "default": "See all cases"
+    }
+  }
+}

@@ -6,4 +6,5 @@ export { ContentWithImage } from "./ContentWithImage";
 export { MarkdownText } from "./MarkdownText";
 export { PersonCard } from "./PersonCard";
 export { FeaturedArticles } from "./FeaturedArticles";
+export { Industries } from "./Industries";
 export type * from "../../types";

@@ -23,9 +23,9 @@ export function Hero(props: HeroProps) {
   const { heading, subtitle, showMenuItemsInHero = true, ctaButtons, backgroundImage, menuItems = [] } = props;
 
   return (
-    <section className="relative bg-white flex flex-col items-end justify-center px-8 py-36 w-full min-h-screen overflow-hidden">
+    <section className="relative bg-white flex flex-col items-end justify-center px-8 py-36 w-full  overflow-hidden">
       {/* SVG Background - positioned exactly as in Figma */}
-      <div className="absolute h-[2054px] left-[-282px] top-[-634.38px] w-[1242.852px]">
+      <div className="absolute h-[1054px] left-[-282px] top-[-634.38px] w-[1242.852px]">
         <AnimatedSVG />
       </div>
 

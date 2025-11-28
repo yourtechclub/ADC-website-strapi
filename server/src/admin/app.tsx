@@ -1,15 +1,19 @@
 import type { StrapiApp } from '@strapi/strapi/admin';
+import './extensions/global.css';
+import logoIcon from './stc-icon.png';
+import logoFull from './stc-logo.png';
 
 export default {
   config: {
     auth: {
-      logo: '/adc-logo.png',
+      logo: logoFull,
     },
     head: {
-      favicon: '/adc-logo.png',
+      favicon: logoIcon,
+      title: 'Strich Tech Club CMS',
     },
     menu: {
-      logo: '/adc-logo.png',
+      logo: logoIcon,
     },
     theme: {
       colors: {
@@ -18,11 +22,19 @@ export default {
         primary500: '#000000',
         primary400: '#333333',
         primary300: '#555555',
-        primary200: '#666666',
-        primary100: '#999999',
+        primary200: '#b2b2b2ff',
+        primary100: '#d7d7d7ff',
         buttonPrimary600: '#000000',
         buttonPrimary500: '#000000',
         buttonPrimary400: '#333333',
+      },
+    },
+    translations: {
+      en: {
+        'Auth.form.welcome.title': 'Welcome back!',
+        'Auth.form.welcome.subtitle': 'Log in to your account',
+        'app.components.HomePage.welcome': 'Welcome to Strich Tech Club CMS',
+        'app.components.HomePage.welcomeBlock.content': 'Manage your website content here',
       },
     },
     locales: [

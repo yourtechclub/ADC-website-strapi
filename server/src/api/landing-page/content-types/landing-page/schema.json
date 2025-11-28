@@ -28,7 +28,11 @@
         "blocks.person-card",
         "blocks.faqs",
         "blocks.newsletter",
-        "blocks.featured-articles"
+        "blocks.featured-articles",
+        "blocks.industries",
+        "blocks.client-logos",
+        "blocks.stats",
+        "blocks.featured-cases"
       ]
     }
   }

@@ -10,6 +10,18 @@ export interface BlocksCardGrid extends Struct.ComponentSchema {
   };
 }
 
+export interface BlocksClientLogos extends Struct.ComponentSchema {
+  collectionName: 'components_blocks_client_logos';
+  info: {
+    description: 'Scrolling carousel of client logos';
+    displayName: 'Client Logos';
+  };
+  attributes: {
+    heading: Schema.Attribute.String;
+    logos: Schema.Attribute.Media<'images', true>;
+  };
+}
+
 export interface BlocksContentWithImage extends Struct.ComponentSchema {
   collectionName: 'components_blocks_content_with_images';
   info: {
@@ -44,6 +56,21 @@ export interface BlocksFeaturedArticles extends Struct.ComponentSchema {
   };
 }
 
+export interface BlocksFeaturedCases extends Struct.ComponentSchema {
+  collectionName: 'components_blocks_featured_cases';
+  info: {
+    description: 'Horizontal scrolling carousel of featured case studies';
+    displayName: 'Featured Cases';
+  };
+  attributes: {
+    buttonText: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'See all cases'>;
+    heading: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Featured cases'>;
+    text: Schema.Attribute.Text;
+  };
+}
+
 export interface BlocksHero extends Struct.ComponentSchema {
   collectionName: 'components_blocks_heroes';
   info: {
@@ -57,6 +84,20 @@ export interface BlocksHero extends Struct.ComponentSchema {
     showMenuItemsInHero: Schema.Attribute.Boolean &
       Schema.Attribute.DefaultTo<true>;
     subtitle: Schema.Attribute.Text;
+  };
+}
+
+export interface BlocksIndustries extends Struct.ComponentSchema {
+  collectionName: 'components_blocks_industries';
+  info: {
+    description: 'Industries section with grid of industry cards';
+    displayName: 'Industries';
+  };
+  attributes: {
+    buttonText: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'See all industries'>;
+    heading: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Industries'>;
+    text: Schema.Attribute.Text;
   };
 }
 
@@ -106,6 +147,21 @@ export interface BlocksSectionHeading extends Struct.ComponentSchema {
     anchorLink: Schema.Attribute.String;
     heading: Schema.Attribute.String;
     subHeading: Schema.Attribute.String;
+  };
+}
+
+export interface BlocksStats extends Struct.ComponentSchema {
+  collectionName: 'components_blocks_stats';
+  info: {
+    description: 'Statistics section with large numbers';
+    displayName: 'Stats';
+  };
+  attributes: {
+    buttonLink: Schema.Attribute.String;
+    buttonText: Schema.Attribute.String;
+    heading: Schema.Attribute.String & Schema.Attribute.Required;
+    stats: Schema.Attribute.Component<'shared.stat-item', true>;
+    text: Schema.Attribute.Text;
   };
 }
 
@@ -215,18 +271,34 @@ export interface SharedLogoLink extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedStatItem extends Struct.ComponentSchema {
+  collectionName: 'components_shared_stat_items';
+  info: {
+    description: 'Individual stat with number and label';
+    displayName: 'Stat Item';
+  };
+  attributes: {
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    number: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
       'blocks.card-grid': BlocksCardGrid;
+      'blocks.client-logos': BlocksClientLogos;
       'blocks.content-with-image': BlocksContentWithImage;
       'blocks.faqs': BlocksFaqs;
       'blocks.featured-articles': BlocksFeaturedArticles;
+      'blocks.featured-cases': BlocksFeaturedCases;
       'blocks.hero': BlocksHero;
+      'blocks.industries': BlocksIndustries;
       'blocks.markdown': BlocksMarkdown;
       'blocks.newsletter': BlocksNewsletter;
       'blocks.person-card': BlocksPersonCard;
       'blocks.section-heading': BlocksSectionHeading;
+      'blocks.stats': BlocksStats;
       'layout.banner': LayoutBanner;
       'layout.footer': LayoutFooter;
       'layout.header': LayoutHeader;
@@ -234,6 +306,7 @@ declare module '@strapi/strapi' {
       'shared.card': SharedCard;
       'shared.link': SharedLink;
       'shared.logo-link': SharedLogoLink;
+      'shared.stat-item': SharedStatItem;
     }
   }
 }

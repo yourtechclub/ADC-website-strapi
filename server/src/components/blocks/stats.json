@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_blocks_stats",
+  "info": {
+    "displayName": "Stats",
+    "description": "Statistics section with large numbers"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "required": true
+    },
+    "text": {
+      "type": "text"
+    },
+    "buttonText": {
+      "type": "string"
+    },
+    "buttonLink": {
+      "type": "string"
+    },
+    "stats": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.stat-item"
+    }
+  }
+}

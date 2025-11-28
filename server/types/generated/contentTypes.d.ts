@@ -459,6 +459,46 @@ export interface ApiAuthorAuthor extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCaseCase extends Struct.CollectionTypeSchema {
+  collectionName: 'cases';
+  info: {
+    description: 'Project case studies';
+    displayName: 'Case';
+    pluralName: 'cases';
+    singularName: 'case';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    category: Schema.Attribute.String & Schema.Attribute.Required;
+    content: Schema.Attribute.DynamicZone<
+      [
+        'blocks.hero',
+        'blocks.section-heading',
+        'blocks.card-grid',
+        'blocks.content-with-image',
+        'blocks.markdown',
+        'blocks.person-card',
+      ]
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::case.case'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   collectionName: 'globals';
   info: {
@@ -492,6 +532,38 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiIndustryIndustry extends Struct.CollectionTypeSchema {
+  collectionName: 'industries';
+  info: {
+    description: 'Individual industry with separate page';
+    displayName: 'Industry';
+    pluralName: 'industries';
+    singularName: 'industry';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::industry.industry'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiLandingPageLandingPage extends Struct.SingleTypeSchema {
   collectionName: 'landing_pages';
   info: {
@@ -515,6 +587,10 @@ export interface ApiLandingPageLandingPage extends Struct.SingleTypeSchema {
         'blocks.faqs',
         'blocks.newsletter',
         'blocks.featured-articles',
+        'blocks.industries',
+        'blocks.client-logos',
+        'blocks.stats',
+        'blocks.featured-cases',
       ]
     >;
     createdAt: Schema.Attribute.DateTime;
@@ -1114,7 +1190,9 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::article.article': ApiArticleArticle;
       'api::author.author': ApiAuthorAuthor;
+      'api::case.case': ApiCaseCase;
       'api::global.global': ApiGlobalGlobal;
+      'api::industry.industry': ApiIndustryIndustry;
       'api::landing-page.landing-page': ApiLandingPageLandingPage;
       'api::page.page': ApiPagePage;
       'api::tag.tag': ApiTagTag;
